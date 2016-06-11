@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+  <script>
+  var link = $('.previous-comic ').attr('href'); // ссылка на предыдущую страницу
+    function loadPictures() {     
+      var xhr = new XMLHttpRequest();
+      // отдаём запрос на сервер, для получения страницы HTML
+          xhr.open('GET', 'http://explosm.net'+link, true);        
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) return;
+                if (xhr.status != 200) {
+                  // обработать ошибку
+                  alert(xhr.status + ': ' + xhr.statusText);
+                } else {
+             // вызываем метод для загрузки картинок
+                  showPictures(xhr.responseText);
+             // аргумент - HTML страница в виде текста с сервера
+                }
+            }
+      xhr.send(); // получаем пакеты с сервера через Аякс..
+    }
+    function showPictures(responseText) {
+            var img = $(responseText).find('#main-comic').attr('src');
+            var new_image = $('<img>').attr('src',img);
+                link = $(responseText).find('.previous-comic').attr('href');
+                $(new_image).appendTo($('#main-comic').parent());
+                  console.log(img);
+                   console.log(link);
+            }
+  </script>
+  <p>hello git</p>
+</body>
+</html>
